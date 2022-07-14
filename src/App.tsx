@@ -24,6 +24,10 @@ interface Ibook {
 
 function App() {
   const [books, setBooks] = useState<Ibook[]>([]);
+  const [publishing, setPublishing] = useState<string>();
+  const [nameBook, setNameBook] = useState<string>();
+  const [nameAuther, setNameAuther] = useState<string>();
+  const [dataPublication, setDataPublication] = useState<string>();
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
@@ -36,17 +40,22 @@ function App() {
       {books.map((e, index) => {
         return (
           <ul key={index}>
-            <li
+            <li>{e.name}</li>
+            <button
               onClick={() => {
-                return (
-                  <li>
-                    {e.Publishing},{e.auther},{e.publication}
-                  </li>
-                );
+                const user: Ibook = {
+                  name: nameBook,
+                  auther: nameAuther,
+                  publication: dataPublication,
+                  Publishing: publishing,
+                };
+
+                setBooks([...books, user]);
               }}
             >
-              {e.name}
-            </li>
+              mm
+            </button>
+            <li>{e.publication}</li>
           </ul>
         );
       })}
