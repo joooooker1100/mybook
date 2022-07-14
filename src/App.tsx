@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState,useEffect } from 'react';
 import './App.css';
+interface Ibook {
+  id?:number;
+  name?: string;
+  auther?: string;
+  publication?: string;
+  Publishing?:string
+}
 
 function App() {
+  const[books,setBooks]=useState<Ibook[]>([]);
+  
+  useEffect(() => {
+    fetch("/book")
+    .then((w) => w.json())
+    .then((w) => setBooks(w));
+  }, []);
+  console.log(books);
+  
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <div> 
+      {books.map((e)=>{
+    
+        return(<ul>
+          <li>{e.publication}</li>
+        </ul>
+         )
+        }
+        )
+          }
+    
+
+         </div>
+  )
 }
 
 export default App;
+
+
