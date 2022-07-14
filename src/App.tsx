@@ -40,7 +40,6 @@ function App() {
       {books.map((e, index) => {
         return (
           <ul key={index}>
-            <li>{e.name}</li>
             <button
               onClick={() => {
                 const user: Ibook = {
@@ -50,12 +49,16 @@ function App() {
                   Publishing: publishing,
                 };
 
-                setBooks([...books, user]);
+                setBooks([...books]);
               }}
             >
               mm
             </button>
-            <li>{e.publication}</li>
+            <li>{e.name}</li>
+
+            <li>
+              {e.publication},{e.Publishing},{e.auther}
+            </li>
           </ul>
         );
       })}
