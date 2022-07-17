@@ -85,14 +85,30 @@ function App() {
           <th></th>
         </tr>
 
-        {books.map((e) => {
+        {books.map((e, index) => {
           return (
             <tr>
               <td className="name">{e.name}</td>
               <td>{e.auther}</td>
               <td>{e.publication}</td>
               <td>{e.Publishing}</td>
-              <button>delete</button>
+              <button
+                onClick={() => {
+                  books.splice(index, 1);
+
+                  fetch(`/book/${e.id}`, {
+                    method: "delete",
+                    headers: {
+                      "content-type": "application/json",
+                    },
+                    body: JSON.stringify(book),
+                  })
+                    .then((w) => w.json())
+                    .then((w) => setBooks([...books, w]));
+                }}
+              >
+                delete
+              </button>
               <button>edite</button>
             </tr>
           );
