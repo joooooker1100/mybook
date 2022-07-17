@@ -36,7 +36,7 @@ function App() {
           (publishing?.length??0)>0
         ) {
           
-          const user: Ibook = {
+          const book: Ibook = {
             name: nameBook,
             auther: nameAuther,
             publication: dataPublication,
