@@ -43,17 +43,17 @@ function App() {
             Publishing:publishing
           };
           
+          fetch("/book",
+          {
+            method: 'post',
+            headers:{
+              'content-type':'application/json'
+             },
+             body: JSON.stringify(book                
+               )}).then((w) => w.json())
+               .then((w) => setBooks(w));
+               console.log(book)
         }
-       fetch("/book",
-       {
-         method: 'post',
-         headers:{
-           'content-type':'application/json'
-          },
-          body: JSON.stringify(book                
-            )}).then((w) => w.json())
-            .then((w) => setBooks(w));
-            console.log(book)
             
       }}>save</button>
       <table>
