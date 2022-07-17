@@ -9,53 +9,72 @@ interface Ibook {
   Publishing?: string;
 }
 function App() {
-  const [publishing, setPublishing] = useState<string>();
-  const [nameBook, setNameBook] = useState<string>();
-  const [nameAuther, setNameAuther] = useState<string>();
-  const [dataPublication, setDataPublication] = useState<string>();
   const [books, setBooks] = useState<Ibook[]>([]);
-  const [book, setBook] = useState<string>();
+  const [book, setBook] = useState<Ibook>({});
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
       .then((w) => setBooks(w));
   }, []);
- 
+  console.log(book);
 
   return (
     <div>
-      <input type={"text"} placeholder={"name"} value={nameBook} onChange={(e)=>{setNameBook(e.target.value)}}/>
-      <input type={"text"}placeholder={"auther"} value={nameAuther } onChange={(e)=>{setNameAuther(e.target.value)}}/>
-      <input type={"text"}placeholder={"publication"}value={publishing} onChange={(e)=>{setPublishing(e.target.value)}}/>
-      <input type={"text"}placeholder={"Publishing"}value={dataPublication} onChange={(e)=>{setDataPublication(e.target.value)}}/>
-      <button onClick={()=>{
-        if (
-          (nameBook?.length??0)>0&&
-          (nameAuther?.length??0)>0&&
-          (dataPublication?.length??0)>0&&
-          (publishing?.length??0)>0
-        ) {
-          
-          const book: Ibook = {
-            name: nameBook,
-            auther: nameAuther,
-            publication: dataPublication,
-            Publishing:publishing
-          };
-          
-          fetch("/book",
-          {
-            method: 'post',
-            headers:{
-              'content-type':'application/json'
-             },
-             body: JSON.stringify(book                
-               )}).then((w) => w.json())
-               .then((w) => setBooks(w));
-               console.log(book)
-        }
-            
-      }}>save</button>
+      <input
+        type={"text"}
+        placeholder={"name"}
+        value={book.name}
+        onChange={(e) => {
+          setBook({ ...book, name: e.target.value });
+        }}
+      />
+      <input
+        type={"text"}
+        placeholder={"auther"}
+        value={book.auther}
+        onChange={(e) => {
+          setBook({ ...book, auther: e.target.value });
+        }}
+      />
+      <input
+        type={"text"}
+        placeholder={"publication"}
+        value={book.publication}
+        onChange={(e) => {
+          setBook({ ...book, publication: e.target.value });
+        }}
+      />
+      <input
+        type={"text"}
+        placeholder={"Publishing"}
+        value={book.Publishing}
+        onChange={(e) => {
+          setBook({ ...book, Publishing: e.target.value });
+        }}
+      />
+      <button
+        onClick={() => {
+          if (
+            (book.name?.length ?? 0) > 0 &&
+            (book.auther?.length ?? 0) > 0 &&
+            (book.publication?.length ?? 0) > 0 &&
+            (book.Publishing?.length ?? 0) > 0
+          ) {
+            fetch("/book", {
+              method: "post",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(book),
+            })
+              .then((w) => w.json())
+              .then((w) => setBooks([...books, w]));
+            console.log(book);
+          }
+        }}
+      >
+        save
+      </button>
       <table>
         <tr>
           <th>name</th>
@@ -64,7 +83,6 @@ function App() {
           <th>Publishing</th>
           <th></th>
           <th></th>
-
         </tr>
 
         {books.map((e) => {
