@@ -1,18 +1,5 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import React from "react";
 import "./App.css";
 interface Ibook {
   id?: number;
@@ -21,47 +8,78 @@ interface Ibook {
   publication?: string;
   Publishing?: string;
 }
-
 function App() {
-  const [books, setBooks] = useState<Ibook[]>([]);
   const [publishing, setPublishing] = useState<string>();
   const [nameBook, setNameBook] = useState<string>();
   const [nameAuther, setNameAuther] = useState<string>();
   const [dataPublication, setDataPublication] = useState<string>();
+  const [books, setBooks] = useState<Ibook[]>([]);
+  const [book, setBook] = useState<string>();
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
       .then((w) => setBooks(w));
   }, []);
-  console.log(books);
+ 
 
   return (
     <div>
-      {books.map((e, index) => {
-        return (
-          <ul key={index}>
-            <button
-              onClick={() => {
-                const user: Ibook = {
-                  name: nameBook,
-                  auther: nameAuther,
-                  publication: dataPublication,
-                  Publishing: publishing,
-                };
+      <input type={"text"} placeholder={"name"} value={nameBook} onChange={(e)=>{setNameBook(e.target.value)}}/>
+      <input type={"text"}placeholder={"auther"} value={nameAuther } onChange={(e)=>{setNameAuther(e.target.value)}}/>
+      <input type={"text"}placeholder={"publication"}value={publishing} onChange={(e)=>{setPublishing(e.target.value)}}/>
+      <input type={"text"}placeholder={"Publishing"}value={dataPublication} onChange={(e)=>{setDataPublication(e.target.value)}}/>
+      <button onClick={()=>{
+        if (
+          (nameBook?.length??0)>0&&
+          (nameAuther?.length??0)>0&&
+          (dataPublication?.length??0)>0&&
+          (publishing?.length??0)>0
+        ) {
+          
+          const user: Ibook = {
+            name: nameBook,
+            auther: nameAuther,
+            publication: dataPublication,
+            Publishing:publishing
+          };
+          
+        }
+       fetch("/book",
+       {
+         method: 'post',
+         headers:{
+           'content-type':'application/json'
+          },
+          body: JSON.stringify(book                
+            )}).then((w) => w.json())
+            .then((w) => setBooks(w));
+            console.log(book)
+            
+      }}>save</button>
+      <table>
+        <tr>
+          <th>name</th>
+          <th>auther</th>
+          <th>publication</th>
+          <th>Publishing</th>
+          <th></th>
+          <th></th>
 
-                setBooks([...books]);
-              }}
-            >
-              mm
-            </button>
-            <li>{e.name}</li>
+        </tr>
 
-            <li>
-              {e.publication},{e.Publishing},{e.auther}
-            </li>
-          </ul>
-        );
-      })}
+        {books.map((e) => {
+          return (
+            <tr>
+              <td className="name">{e.name}</td>
+              <td>{e.auther}</td>
+              <td>{e.publication}</td>
+              <td>{e.Publishing}</td>
+              <button>delete</button>
+              <button>edite</button>
+            </tr>
+          );
+        })}
+      </table>
     </div>
   );
 }
