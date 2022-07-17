@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .App-logo {
@@ -35,4 +37,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+th,td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+  
+}
+table{
+  
+  
+  width: 100%;
+
+}
+.name{
+  min-width: 350px;
+  text-align: center;
 }
