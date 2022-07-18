@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import React from "react";
 import "./App.css";
 interface Ibook {
   id?: number;
@@ -16,7 +15,7 @@ function App() {
       .then((w) => w.json())
       .then((w) => setBooks(w));
   }, []);
-  console.log(book);
+  
 
   return (
     <div>
@@ -67,10 +66,12 @@ function App() {
               },
               body: JSON.stringify(book),
             })
-              .then((w) => w.json())
-              .then((w) => setBooks([...books, w]));
-            console.log(book);
+            .then((w) => w.json())
+            .then((w) => setBooks([...books, w]));
+            
           }
+          setBook({name:'',auther:'',Publishing:'',publication:''});
+          
         }}
       >
         save
@@ -94,7 +95,7 @@ function App() {
               <td>{e.Publishing}</td>
               <button
                 onClick={() => {
-                  books.splice(index, 1);
+                 
 
                   fetch(`/book/${e.id}`, {
                     method: "delete",
@@ -105,6 +106,8 @@ function App() {
                   })
                     .then((w) => w.json())
                     .then((w) => setBooks([...books, w]));
+                    books.splice(index, 1);
+                    setBooks([...books]);
                 }}
               >
                 delete
