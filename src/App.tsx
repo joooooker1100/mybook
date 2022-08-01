@@ -5,7 +5,14 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 
 import Modal from "@mui/material/Modal";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Link,
+  Outlet,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Users from "./Users";
 
 const style = {
@@ -27,6 +34,7 @@ interface Ibook {
   Publishing?: string;
 }
 function App() {
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
   const [book, setBook] = useState<Ibook>({});
   const [editeBook, setEditeBook] = useState<Ibook>({});
@@ -211,6 +219,14 @@ function App() {
           );
         })}
       </table>
+      <button
+        onClick={() => {
+          return navigate("/users");
+        }}
+      >
+        Users
+      </button>
+      <Outlet />
     </div>
   );
 }

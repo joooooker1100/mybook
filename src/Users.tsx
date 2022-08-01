@@ -4,6 +4,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 
 import Modal from "@mui/material/Modal";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 interface IUser {
   id?: number;
   name?: string;
@@ -24,6 +25,7 @@ const style = {
   p: 4,
 };
 function Users() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[]>([]);
   const [user, setUser] = useState<IUser>({});
   const [editeUser, setEditeUser] = useState<IUser>({});
@@ -231,6 +233,14 @@ function Users() {
           );
         })}
       </table>
+      <button
+        onClick={() => {
+          return navigate("/");
+        }}
+      >
+        Books
+      </button>
+      <Outlet />
     </div>
   );
 }
