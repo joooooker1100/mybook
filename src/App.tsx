@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+
 import Modal from "@mui/material/Modal";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import Users from "./Users";
 
 const style = {
   position: "absolute" as "absolute",
@@ -210,7 +211,6 @@ function App() {
           );
         })}
       </table>
-      <Button onClick={() => {}}> Users</Button>
     </div>
   );
 }
