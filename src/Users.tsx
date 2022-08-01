@@ -238,7 +238,7 @@ function Users() {
           return navigate("/");
         }}
       >
-        Books
+        Back
       </button>
       <Outlet />
     </div>

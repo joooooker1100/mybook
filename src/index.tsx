@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Users from "./Users";
+import Home from "./Home";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -12,8 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="users" element={<Users />} />
-      <Route path="/" element={<App />} />
+      <Route path="/" element={<Home />} />
+      <Route path="Books/" element={<App />} />
+      <Route path="Users" element={<Users />} />
     </Routes>
   </BrowserRouter>
 );

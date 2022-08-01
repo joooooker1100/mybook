@@ -221,10 +221,10 @@ function App() {
       </table>
       <button
         onClick={() => {
-          return navigate("/users");
+          return navigate("/");
         }}
       >
-        Users
+        Back
       </button>
       <Outlet />
     </div>
