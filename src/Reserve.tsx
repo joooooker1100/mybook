@@ -1,28 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-interface Ibook {
+interface IReserve {
   id?: number;
-  name?: string;
+  codeMeli?: string;
+  bookName?: string;
+  firstDate?: string;
+  lastDate?: string;
 }
 export default function Reserve() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState<Ibook>({});
+  const [list, setList] = useState<IReserve[]>([]);
   useEffect(() => {
-    fetch("/book")
+    fetch("/reserve")
       .then((w) => w.json())
-      .then((w) => setSearch(w));
+      .then((w) => setList(w));
   }, []);
   return (
     <div>
-      <input
-        type={"text"}
-        value={search.name}
-        placeholder={"BookName"}
-        onChange={(e) => {
-          setSearch({ ...search, name: e.target.value });
-        }}
-      />
-
       <table>
         <tr>
           <th>BookName</th>
@@ -30,12 +24,16 @@ export default function Reserve() {
           <th>DeliveryDate</th>
           <th>ReturnDate</th>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        {list.map((e) => {
+          return (
+            <tr>
+              <td>{e.bookName}</td>
+              <td>{e.codeMeli}</td>
+              <td>{e.firstDate}</td>
+              <td>{e.lastDate}</td>
+            </tr>
+          );
+        })}
       </table>
       <button
         onClick={() => {

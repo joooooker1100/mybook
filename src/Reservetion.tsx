@@ -10,9 +10,17 @@ export default function Reservetion() {
     id?: number;
     codeMeli?: string;
   }
+  interface IReserve {
+    id?: number;
+    codeMeli?: string;
+    bookName?: string;
+    firstDate?: string;
+    lastDate?: string;
+  }
   const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [reserve, setReserve] = useState<IReserve>({});
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
@@ -26,7 +34,14 @@ export default function Reservetion() {
   return (
     <div>
       <label htmlFor="books">Choose a book:</label>
-      <select name="books" id="books">
+      <select
+        name="books"
+        id="books"
+        value={reserve.bookName}
+        onChange={(e) => {
+          setReserve({ ...reserve, bookName: e.target.value });
+        }}
+      >
         {books.map((e) => {
           return <option value={e.name}>{e.name}</option>;
         })}
@@ -34,19 +49,51 @@ export default function Reservetion() {
       <br />
       <br />
       <label htmlFor="Users">Choose a User:</label>
-      <select name="Users" id="Users">
+      <select
+        name="Users"
+        id="Users"
+        value={reserve.codeMeli}
+        onChange={(e) => {
+          setReserve({ ...reserve, codeMeli: e.target.value });
+        }}
+      >
         {users.map((e) => {
           return <option value={e.codeMeli}>{e.codeMeli}</option>;
         })}
       </select>
       <br />
       <br />
-      <label>DeliveryDate:</label>
-      <input type={"date"} value={new Date().toISOString().substr(0, 10)} />
-      <br />
-      <br />
       <label>ReturnDate:</label>
-      <input type={"date"} />
+      <input
+        type={"date"}
+        value={reserve.lastDate}
+        onChange={(e) => {
+          setReserve({ ...reserve, lastDate: e.target.value });
+        }}
+      />
+      <br />
+      <br />
+      <button
+        onClick={() => {
+          {
+            fetch("/reserve", {
+              method: "post",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify({
+                ...reserve,
+                firstDate: new Date().toISOString().substr(0, 10),
+              }),
+            })
+              .then((w) => w.json())
+              .then((w) => setBooks([...books, w]));
+          }
+        }}
+      >
+        Save
+      </button>
+
       <br />
       <br />
       <button
