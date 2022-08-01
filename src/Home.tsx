@@ -11,6 +11,12 @@ export default function home() {
           <li>
             <Link to="/Users">Users</Link>
           </li>
+          <li>
+            <Link to="/Reserve">Reserve</Link>
+          </li>
+          <li>
+            <Link to="/Reservetion">Reservetion</Link>
+          </li>
         </ul>
       </nav>
 

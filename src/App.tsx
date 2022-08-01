@@ -1,20 +1,9 @@
 import { useState, useEffect } from "react";
-
 import "./App.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
-
 import Modal from "@mui/material/Modal";
-import {
-  BrowserRouter,
-  Link,
-  Outlet,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
-import Users from "./Users";
-
+import { Outlet, useNavigate } from "react-router-dom";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
