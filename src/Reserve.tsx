@@ -6,8 +6,11 @@ interface IReserve {
   bookName?: string;
   firstDate?: string;
   lastDate?: string;
+  returnedDate?: string;
 }
 export default function Reserve() {
+  const [editeList, setEditeList] = useState<IReserve>({});
+  const [index, setIndex] = useState<number>();
   const navigate = useNavigate();
   const [list, setList] = useState<IReserve[]>([]);
   useEffect(() => {
@@ -19,6 +22,7 @@ export default function Reserve() {
     <div>
       <table>
         <tr>
+          <th></th>
           <th>BookName</th>
           <th>CodeMeli</th>
           <th>DeliveryDate</th>
@@ -27,6 +31,32 @@ export default function Reserve() {
         {list.map((e) => {
           return (
             <tr>
+              <td>
+                <button
+                  onClick={() => {
+                    const edite = {
+                      bookName: editeList.bookName,
+                      codeMeli: editeList.codeMeli,
+                      lastDate: editeList.lastDate,
+                      firstDate: editeList.firstDate,
+                    };
+                    list[index!] = edite;
+                    setList([...list]);
+                    fetch(`/reserve/${editeList.id}`, {
+                      method: "put",
+                      headers: {
+                        "content-type": "application/json",
+                      },
+                      body: JSON.stringify(editeList),
+                    })
+                      .then((w) => w.json())
+                      .then((w) => {
+                        list[index!] = w;
+                        setList([...list]);
+                      });
+                  }}
+                ></button>
+              </td>
               <td>{e.bookName}</td>
               <td>{e.codeMeli}</td>
               <td>{e.firstDate}</td>
