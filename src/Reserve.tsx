@@ -39,6 +39,7 @@ export default function Reserve() {
                       codeMeli: editeList.codeMeli,
                       lastDate: editeList.lastDate,
                       firstDate: editeList.firstDate,
+                      returnedDate:editeList.returnedDate
                     };
                     list[index!] = edite;
                     setList([...list]);
@@ -47,7 +48,7 @@ export default function Reserve() {
                       headers: {
                         "content-type": "application/json",
                       },
-                      body: JSON.stringify(editeList),
+                      body: JSON.stringify({...editeList,returnedDate: new Date().toISOString().substr(0, 10)})
                     })
                       .then((w) => w.json())
                       .then((w) => {
