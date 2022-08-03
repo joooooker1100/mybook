@@ -16,11 +16,13 @@ export default function Reservetion() {
     bookName?: string;
     firstDate?: string;
     lastDate?: string;
+    returnedDate?: string;
   }
   const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [reserve, setReserve] = useState<IReserve>({});
+  const [reserves, setReserves] = useState<IReserve[]>([]);
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
@@ -38,8 +40,16 @@ export default function Reservetion() {
         name="books"
         id="books"
         value={reserve.bookName}
-        onChange={(e) => {
-          setReserve({ ...reserve, bookName: e.target.value });
+        onChange={(f) => {
+          fetch("/reserve")
+            .then((w) => w.json())
+            .then((w) => {
+              const filterDate = w.filter((e: IReserve) => {
+                return e.returnedDate && e.bookName === f.target.value;
+              });
+              setReserve({ ...reserve, bookName: f.target.value });
+              console.log(filterDate);
+            });
         }}
       >
         {books.map((e) => {

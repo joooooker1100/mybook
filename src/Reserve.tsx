@@ -9,8 +9,6 @@ interface IReserve {
   returnedDate?: string;
 }
 export default function Reserve() {
-  const [editeList, setEditeList] = useState<IReserve>({});
-  const [index, setIndex] = useState<number>();
   const navigate = useNavigate();
   const [list, setList] = useState<IReserve[]>([]);
   useEffect(() => {
@@ -23,41 +21,44 @@ export default function Reserve() {
       <table>
         <tr>
           <th></th>
+          <th>returned</th>
           <th>BookName</th>
           <th>CodeMeli</th>
           <th>DeliveryDate</th>
           <th>ReturnDate</th>
         </tr>
-        {list.map((e) => {
+        {list.map((e, index) => {
           return (
             <tr>
               <td>
                 <button
                   onClick={() => {
-                    const edite = {
-                      bookName: editeList.bookName,
-                      codeMeli: editeList.codeMeli,
-                      lastDate: editeList.lastDate,
-                      firstDate: editeList.firstDate,
-                      returnedDate:editeList.returnedDate
+                    const edit = {
+                      ...list[index],
+                      returnedDate: new Date().toISOString().substr(0, 10),
                     };
-                    list[index!] = edite;
-                    setList([...list]);
-                    fetch(`/reserve/${editeList.id}`, {
-                      method: "put",
-                      headers: {
-                        "content-type": "application/json",
-                      },
-                      body: JSON.stringify({...editeList,returnedDate: new Date().toISOString().substr(0, 10)})
-                    })
-                      .then((w) => w.json())
-                      .then((w) => {
-                        list[index!] = w;
-                        setList([...list]);
-                      });
+                    if (window.confirm("Are you sure?") === true) {
+                      fetch(`/reserve/${edit.id}`, {
+                        method: "put",
+                        headers: {
+                          "content-type": "application/json",
+                        },
+                        body: JSON.stringify(edit),
+                      })
+                        .then((w) => w.json())
+                        .then((w) => {
+                          list[index!] = w;
+                          setList([...list]);
+                        });
+                    } else {
+                      window.alert("You canceled!");
+                    }
                   }}
-                ></button>
+                >
+                  returned
+                </button>
               </td>
+              <td>{e.returnedDate}</td>
               <td>{e.bookName}</td>
               <td>{e.codeMeli}</td>
               <td>{e.firstDate}</td>
