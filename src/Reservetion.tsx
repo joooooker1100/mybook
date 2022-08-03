@@ -22,7 +22,7 @@ export default function Reservetion() {
   const [books, setBooks] = useState<Ibook[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [reserve, setReserve] = useState<IReserve>({});
-  const [reserves, setReserves] = useState<IReserve[]>([]);
+  
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
@@ -47,8 +47,13 @@ export default function Reservetion() {
               const filterDate = w.filter((e: IReserve) => {
                 return e.returnedDate && e.bookName === f.target.value;
               });
-              setReserve({ ...reserve, bookName: f.target.value });
-              console.log(filterDate);
+              console.log(f.target.value);
+              if (filterDate!=f.target.value) {
+                window.alert("Not available!")
+              } else {
+                setReserve({ ...reserve, bookName: f.target.value });
+              }
+              
             });
         }}
       >
