@@ -48,10 +48,10 @@ export default function Reservetion() {
                 return e.returnedDate && e.bookName === f.target.value;
               });
               console.log(f.target.value);
-              if (filterDate!=f.target.value) {
-                window.alert("Not available!")
-              } else {
+              if (filterDate===null) {
                 setReserve({ ...reserve, bookName: f.target.value });
+              } else {
+                window.alert("Not available!")
               }
               
             });
