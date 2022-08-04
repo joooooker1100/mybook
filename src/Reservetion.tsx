@@ -77,9 +77,7 @@ export default function Reservetion() {
         value={reserve.codeMeli}
         onChange={(f) => {
           const filterCodeMeli = reserves.filter((e: IReserve) => {
-            return (
-              e.codeMeli && e.codeMeli === f.target.value && !e.returnedDate
-            );
+            return e.codeMeli === f.target.value && !e.returnedDate;
           });
           console.log(filterCodeMeli);
           if (filterCodeMeli.length === 0) {
@@ -126,6 +124,11 @@ export default function Reservetion() {
               .then((w) => w.json())
               .then((w) => setBooks([...books, w]));
           }
+          setReserve({
+            bookName: "",
+            codeMeli: "",
+            lastDate: "",
+          });
         }}
       >
         Save

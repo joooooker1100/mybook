@@ -11,6 +11,8 @@ interface IReserve {
 export default function Reserve() {
   const navigate = useNavigate();
   const [list, setList] = useState<IReserve[]>([]);
+  const [searchCodeMeli, setSearchCodeMeli] = useState<any>();
+  const [searchNameBook, setSearchNameBook] = useState<any>();
   useEffect(() => {
     fetch("/reserve")
       .then((w) => w.json())
@@ -18,6 +20,76 @@ export default function Reserve() {
   }, []);
   return (
     <div>
+      <button
+        onClick={() => {
+          const filteredreserve = list.filter((e) => {
+            return e.returnedDate;
+          });
+          console.log(filteredreserve);
+          setList([...filteredreserve]);
+        }}
+      >
+        ReturnResereve
+      </button>
+      <button
+        onClick={() => {
+          const filteredNotReserves = list.filter((e) => {
+            return !e.returnedDate;
+          });
+          console.log(filteredNotReserves);
+          setList([...filteredNotReserves]);
+        }}
+      >
+        NotReturnResereve
+      </button>
+      <button
+        onClick={() => {
+          fetch("/reserve")
+            .then((w) => w.json())
+            .then((w) => setList(w));
+        }}
+      >
+        AllReserve
+      </button>
+      <br />
+      <input
+        type={"text"}
+        placeholder={"CodeMeli"}
+        onChange={(e) => {
+          setSearchCodeMeli(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          const filterCodeMeli = list.filter((e) => {
+            return e.codeMeli === searchCodeMeli;
+          });
+          console.log(searchCodeMeli);
+          setList([...filterCodeMeli]);
+        }}
+      >
+        search width CodeMeli
+      </button>
+      <br />
+      <input
+        type={"text"}
+        placeholder={"NameBook"}
+        onChange={(e) => {
+          setSearchNameBook(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          const filterNameBook = list.filter((e) => {
+            return e.bookName
+              ?.toLocaleLowerCase()
+              .includes(searchNameBook.toLocaleLowerCase());
+          });
+          setList([...filterNameBook]);
+        }}
+      >
+        search width NameBook
+      </button>
       <table>
         <tr>
           <th></th>
