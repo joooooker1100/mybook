@@ -122,8 +122,6 @@ export default function Reserve() {
                           list[index!] = w;
                           setList([...list]);
                         });
-                    } else {
-                      window.alert("You canceled!");
                     }
                   }}
                 >
