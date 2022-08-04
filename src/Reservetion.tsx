@@ -5,6 +5,8 @@ export default function Reservetion() {
   interface Ibook {
     id?: number;
     name?: string;
+    lastDate?: string;
+    bookName?: string;
   }
   interface IUser {
     id?: number;
@@ -18,11 +20,12 @@ export default function Reservetion() {
     lastDate?: string;
     returnedDate?: string;
   }
+
   const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [reserve, setReserve] = useState<IReserve>({});
-  
+  const [reserves, setReserves] = useState([]);
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
@@ -33,6 +36,11 @@ export default function Reservetion() {
       .then((w) => w.json())
       .then((w) => setUsers(w));
   }, []);
+  useEffect(() => {
+    fetch("/reserve")
+      .then((w) => w.json())
+      .then((w) => setReserves(w));
+  }, [reserve.bookName, reserve.codeMeli]);
   return (
     <div>
       <label htmlFor="books">Choose a book:</label>
@@ -41,24 +49,23 @@ export default function Reservetion() {
         id="books"
         value={reserve.bookName}
         onChange={(f) => {
-          fetch("/reserve")
-            .then((w) => w.json())
-            .then((w) => {
-              const filterDate = w.filter((e: IReserve) => {
-                return e.returnedDate && e.bookName === f.target.value;
-              });
-              console.log(f.target.value);
-              if (filterDate===null) {
-                setReserve({ ...reserve, bookName: f.target.value });
-              } else {
-                window.alert("Not available!")
-              }
-              
-            });
+          const filterDate = reserves.filter((e: IReserve) => {
+            return !e.returnedDate && e.bookName === f.target.value;
+          });
+          console.log(filterDate);
+          if (filterDate.length === 0) {
+            setReserve({ ...reserve, bookName: f.target.value });
+          } else {
+            window.alert("Not available!");
+          }
         }}
       >
-        {books.map((e) => {
-          return <option value={e.name}>{e.name}</option>;
+        {books.map((e, index) => {
+          return (
+            <option key={index + "pep"} value={e.name}>
+              {e.name}
+            </option>
+          );
         })}
       </select>
       <br />
@@ -68,8 +75,18 @@ export default function Reservetion() {
         name="Users"
         id="Users"
         value={reserve.codeMeli}
-        onChange={(e) => {
-          setReserve({ ...reserve, codeMeli: e.target.value });
+        onChange={(f) => {
+          const filterCodeMeli = reserves.filter((e: IReserve) => {
+            return (
+              e.codeMeli && e.codeMeli === f.target.value && !e.returnedDate
+            );
+          });
+          console.log(filterCodeMeli);
+          if (filterCodeMeli.length === 0) {
+            setReserve({ ...reserve, codeMeli: f.target.value });
+          } else {
+            window.alert("Not available!");
+          }
         }}
       >
         {users.map((e) => {
@@ -91,7 +108,11 @@ export default function Reservetion() {
       <br />
       <button
         onClick={() => {
-          {
+          if (
+            (reserve.bookName?.length ?? 0) > 0 &&
+            (reserve.codeMeli?.length ?? 0) > 0 &&
+            (reserve.lastDate?.length ?? 0) > 0
+          ) {
             fetch("/reserve", {
               method: "post",
               headers: {
