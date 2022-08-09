@@ -1,5 +1,30 @@
+import { Breadcrumbs, Chip, emphasize, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
+const StyledBreadcrumb = styled(Chip)(({ theme }) => {
+  const backgroundColor =
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[100]
+      : theme.palette.grey[800];
+  return {
+    backgroundColor,
+    height: theme.spacing(3),
+    color: theme.palette.text.primary,
+    fontWeight: theme.typography.fontWeightRegular,
+    '&:hover, &:focus': {
+      backgroundColor: emphasize(backgroundColor, 0.06),
+    },
+    '&:active': {
+      boxShadow: theme.shadows[1],
+      backgroundColor: emphasize(backgroundColor, 0.12),
+    },
+  };
+}) as typeof Chip; // TypeScript only: need a type cast here because https://github.com/Microsoft/TypeScript/issues/26591
+
+function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
+  event.preventDefault();
+  console.info('You clicked a breadcrumb.');}
 
 export default function Reservetion() {
   interface Ibook {
@@ -20,12 +45,17 @@ export default function Reservetion() {
     lastDate?: string;
     returnedDate?: string;
   }
+  interface AutocompleteOption {
+    label: string;
+  }
 
+  
   const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [reserve, setReserve] = useState<IReserve>({});
   const [reserves, setReserves] = useState([]);
+  const options = [books];
   useEffect(() => {
     fetch("/book")
       .then((w) => w.json())
@@ -41,8 +71,10 @@ export default function Reservetion() {
       .then((w) => w.json())
       .then((w) => setReserves(w));
   }, [reserve.bookName, reserve.codeMeli]);
+
   return (
     <div>
+
       <label htmlFor="books">Choose a book:</label>
       <select
         name="books"
@@ -136,13 +168,16 @@ export default function Reservetion() {
 
       <br />
       <br />
-      <button
-        onClick={() => {
-          return navigate("/");
-        }}
-      >
-        back to Home
-      </button>
+      <Breadcrumbs aria-label="breadcrumb">
+        <StyledBreadcrumb
+          onClick={() => {
+            return navigate("/");
+          }}
+          label="Home"
+          icon={<HomeIcon fontSize="small" />}
+        />
+        
+      </Breadcrumbs>
       <Outlet />
     </div>
   );
