@@ -2,12 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { Home } from "@mui/icons-material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Users from "./Users";
-import Home from "./Home";
-import Reserve from "./Reserve";
-import Reservetion from "./Reservetion";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,11 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route path="/Books" element={<App />} />
-      <Route path="/Users" element={<Users />} />
-      <Route path="/Reserve" element={<Reserve />} />
-      <Route path="/Reservetion" element={<Reservetion />} />
     </Routes>
   </BrowserRouter>
 );
