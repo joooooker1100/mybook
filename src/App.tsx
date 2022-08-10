@@ -4,7 +4,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Breadcrumbs, Chip, emphasize, styled } from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
   Button,
@@ -41,7 +41,7 @@ interface Ibook {
 }
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? theme.palette.grey[100]
       : theme.palette.grey[800];
   return {
@@ -49,10 +49,10 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
     height: theme.spacing(3),
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: emphasize(backgroundColor, 0.06),
     },
-    '&:active': {
+    "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: emphasize(backgroundColor, 0.12),
     },
@@ -61,7 +61,8 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');}
+  console.info("You clicked a breadcrumb.");
+}
 function App() {
   const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
@@ -141,7 +142,7 @@ function App() {
                 });
             }}
           >
-            Save
+            ذخیره
           </button>
         </Box>
       </Modal>
@@ -155,7 +156,7 @@ function App() {
       >
         <TextField
           id="outlined-name"
-          label="Name"
+          label="نام"
           value={book.name}
           onChange={(e) => {
             setBook({ ...book, name: e.target.value });
@@ -163,7 +164,7 @@ function App() {
         />
         <TextField
           id="outlined-name"
-          label="auther"
+          label="نام نویسنده"
           value={book.auther}
           onChange={(e) => {
             setBook({ ...book, auther: e.target.value });
@@ -171,7 +172,7 @@ function App() {
         />
         <TextField
           id="outlined-name"
-          label="publication"
+          label="تاریخ انتشار کتاب"
           value={book.publication}
           onChange={(e) => {
             setBook({ ...book, publication: e.target.value });
@@ -179,7 +180,7 @@ function App() {
         />
         <TextField
           id="outlined-name"
-          label="Publishing"
+          label="کشور نویسنده کتاب"
           value={book.Publishing}
           onChange={(e) => {
             setBook({ ...book, Publishing: e.target.value });
@@ -211,7 +212,7 @@ function App() {
           }}
         >
           <NavigationIcon sx={{ mr: 1 }} />
-          Save
+          ذخیره
         </Fab>
       </Box>
 
@@ -219,10 +220,10 @@ function App() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Name</TableCell>
-              <TableCell align="center">auther</TableCell>
-              <TableCell align="center">publication</TableCell>
-              <TableCell align="center">Publishing</TableCell>
+              <TableCell align="center">نام کتاب</TableCell>
+              <TableCell align="center">نام نویسنده</TableCell>
+              <TableCell align="center">تاریخ انتشار کتاب</TableCell>
+              <TableCell align="center"> کشور نویسنده کتاب</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -238,40 +239,48 @@ function App() {
                   variant="contained"
                   aria-label="outlined primary button group"
                 >
-                  <Button  onClick={() => {
-                    fetch(`/book/${e.id}`, {
-                      method: "delete",
-                      headers: {
-                        "content-type": "application/json",
-                      },
-                      body: JSON.stringify(book),
-                    })
-                      .then((w) => w.json())
-                      .then((w) => {
-                        books.splice(index, 1);
-                        setBooks([...books]);
-                      });
-                  }}>Delete</Button>
-                  <Button  onClick={() => {
-                    handleOpen();
-                    setEditeBook(e);
-                    setIndex(index);
-                  }}>Edit</Button>
+                  <Button
+                    onClick={() => {
+                      fetch(`/book/${e.id}`, {
+                        method: "delete",
+                        headers: {
+                          "content-type": "application/json",
+                        },
+                        body: JSON.stringify(book),
+                      })
+                        .then((w) => w.json())
+                        .then((w) => {
+                          books.splice(index, 1);
+                          setBooks([...books]);
+                        });
+                    }}
+                  >
+                    حذف
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleOpen();
+                      setEditeBook(e);
+                      setIndex(index);
+                    }}
+                  >
+                    ویرایش
+                  </Button>
                 </ButtonGroup>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
       <Breadcrumbs aria-label="breadcrumb">
         <StyledBreadcrumb
           onClick={() => {
             return navigate("/");
           }}
-          label="Home"
+          label="برگشت به خانه"
           icon={<HomeIcon fontSize="small" />}
         />
-        
       </Breadcrumbs>
       <Outlet />
     </div>

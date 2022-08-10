@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 import Modal from "@mui/material/Modal";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Breadcrumbs, Chip, emphasize, styled } from "@mui/material";
@@ -27,7 +27,7 @@ const style = {
 };
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? theme.palette.grey[100]
       : theme.palette.grey[800];
   return {
@@ -35,10 +35,10 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
     height: theme.spacing(3),
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: emphasize(backgroundColor, 0.06),
     },
-    '&:active': {
+    "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: emphasize(backgroundColor, 0.12),
     },
@@ -47,7 +47,7 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');
+  console.info("You clicked a breadcrumb.");
 }
 function Users() {
   const navigate = useNavigate();
@@ -135,14 +135,14 @@ function Users() {
                 });
             }}
           >
-            Save
+            ذخیره
           </button>
         </Box>
       </Modal>
       <input
         type={"text"}
         value={user.name}
-        placeholder={"name"}
+        placeholder={"نام"}
         onChange={(e) => {
           setUser({ ...user, name: e.target.value });
         }}
@@ -150,7 +150,7 @@ function Users() {
       <input
         type={"text"}
         value={user.lastName}
-        placeholder={"lastName"}
+        placeholder={"نام خانوادگی"}
         onChange={(e) => {
           setUser({ ...user, lastName: e.target.value });
         }}
@@ -158,7 +158,7 @@ function Users() {
       <input
         type={"text"}
         value={user.codeMeli}
-        placeholder={"codeMeli"}
+        placeholder={"کدملی"}
         onChange={(e) => {
           setUser({ ...user, codeMeli: e.target.value });
         }}
@@ -166,7 +166,7 @@ function Users() {
       <input
         type={"text"}
         value={user.mobile}
-        placeholder={"mobile"}
+        placeholder={"موبایل"}
         onChange={(e) => {
           setUser({ ...user, mobile: e.target.value });
         }}
@@ -174,7 +174,7 @@ function Users() {
       <input
         type={"text"}
         value={user.exp}
-        placeholder={"EXP"}
+        placeholder={"تاریخ انقضا"}
         onChange={(e) => {
           setUser({ ...user, exp: e.target.value });
         }}
@@ -207,16 +207,16 @@ function Users() {
           });
         }}
       >
-        Save
+        ذخیره
       </button>
 
       <table>
         <tr>
-          <th>Name</th>
-          <th>LastName</th>
-          <th>CodeMeli</th>
-          <th>Mobile</th>
-          <th>EXP</th>
+          <th>نام</th>
+          <th>نام خانوادگی</th>
+          <th>کدملی</th>
+          <th>موبایل</th>
+          <th>تاریخ انقضا</th>
         </tr>
         {users.map((a, index) => {
           return (
@@ -234,7 +234,7 @@ function Users() {
                   setUsers([...users]);
                 }}
               >
-                Edite
+                ویرایش
               </button>
               <button
                 onClick={() => {
@@ -252,22 +252,21 @@ function Users() {
                     });
                 }}
               >
-                Delete
+                حذف
               </button>
             </tr>
           );
         })}
       </table>
-     
+
       <Breadcrumbs aria-label="breadcrumb">
         <StyledBreadcrumb
           onClick={() => {
             return navigate("/");
           }}
-          label="Home"
+          label="برگشت به خانه"
           icon={<HomeIcon fontSize="small" />}
         />
-        
       </Breadcrumbs>
       <Outlet />
     </div>

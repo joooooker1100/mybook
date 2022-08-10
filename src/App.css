@@ -3,6 +3,11 @@
   align-items: center;
   justify-content: center;
 }
+@font-face {
+  font-family: "IRANSansWeb";
+  src:url("./fonts/IRANSansWeb(FaNum).woff")format("woff");
+  font-weight: normal;
+}
 
 .App-logo {
   height: 40vmin;
@@ -53,4 +58,8 @@ table{
 .name{
   min-width: 350px;
   text-align: center;
+}
+a{
+  text-decoration: none;
+
 }

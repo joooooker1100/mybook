@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Breadcrumbs, Chip, emphasize, styled } from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 interface IReserve {
   id?: number;
   codeMeli?: string;
@@ -12,7 +12,7 @@ interface IReserve {
 }
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? theme.palette.grey[100]
       : theme.palette.grey[800];
   return {
@@ -20,10 +20,10 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
     height: theme.spacing(3),
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: emphasize(backgroundColor, 0.06),
     },
-    '&:active': {
+    "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: emphasize(backgroundColor, 0.12),
     },
@@ -32,7 +32,8 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');}
+  console.info("You clicked a breadcrumb.");
+}
 export default function Reserve() {
   const navigate = useNavigate();
   const [list, setList] = useState<IReserve[]>([]);
@@ -54,7 +55,7 @@ export default function Reserve() {
           setList([...filteredreserve]);
         }}
       >
-        ReturnResereve
+        کتابهایی که پس گرفته شده اند
       </button>
       <button
         onClick={() => {
@@ -65,7 +66,7 @@ export default function Reserve() {
           setList([...filteredNotReserves]);
         }}
       >
-        NotReturnResereve
+        کتابهایی که پس گرفته نشده اند
       </button>
       <button
         onClick={() => {
@@ -74,12 +75,12 @@ export default function Reserve() {
             .then((w) => setList(w));
         }}
       >
-        AllReserve
+        کلیه کتابهای امانت داده شده
       </button>
       <br />
       <input
         type={"text"}
-        placeholder={"CodeMeli"}
+        placeholder={"کد ملی"}
         onChange={(e) => {
           setSearchCodeMeli(e.target.value);
         }}
@@ -93,12 +94,12 @@ export default function Reserve() {
           setList([...filterCodeMeli]);
         }}
       >
-        search width CodeMeli
+        :جست و جو از طریق کدملی
       </button>
       <br />
       <input
         type={"text"}
-        placeholder={"NameBook"}
+        placeholder={"کتاب"}
         onChange={(e) => {
           setSearchNameBook(e.target.value);
         }}
@@ -113,16 +114,16 @@ export default function Reserve() {
           setList([...filterNameBook]);
         }}
       >
-        search width NameBook
+        :جست و جو از طریق نام کتاب
       </button>
       <table>
         <tr>
           <th></th>
-          <th>returned</th>
-          <th>BookName</th>
-          <th>CodeMeli</th>
-          <th>DeliveryDate</th>
-          <th>ReturnDate</th>
+          <th> تاریخ برگشت کتاب</th>
+          <th>نام کتاب</th>
+          <th>کدملی</th>
+          <th>تاریخ تحویل دادن</th>
+          <th>تاریخ تحویل گرفتن</th>
         </tr>
         {list.map((e, index) => {
           return (
@@ -132,9 +133,11 @@ export default function Reserve() {
                   onClick={() => {
                     const edit = {
                       ...list[index],
-                      returnedDate: new Date().toISOString().substr(0, 10),
+                      returnedDate: new Date()
+                        .toLocaleDateString("fa")
+                        .substr(0, 10),
                     };
-                    if (window.confirm("Are you sure?") === true) {
+                    if (window.confirm("آیا مطمئن هستید؟") === true) {
                       fetch(`/reserve/${edit.id}`, {
                         method: "put",
                         headers: {
@@ -150,7 +153,7 @@ export default function Reserve() {
                     }
                   }}
                 >
-                  returned
+                  برگشت داده شد
                 </button>
               </td>
               <td>{e.returnedDate}</td>
@@ -167,12 +170,10 @@ export default function Reserve() {
           onClick={() => {
             return navigate("/");
           }}
-          label="Home"
+          label="برگشت به خانه"
           icon={<HomeIcon fontSize="small" />}
         />
-        
       </Breadcrumbs>
-      
     </div>
   );
 }

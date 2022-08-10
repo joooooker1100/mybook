@@ -1,10 +1,10 @@
 import { Breadcrumbs, Chip, emphasize, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import HomeIcon from '@mui/icons-material/Home';
+import HomeIcon from "@mui/icons-material/Home";
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? theme.palette.grey[100]
       : theme.palette.grey[800];
   return {
@@ -12,10 +12,10 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
     height: theme.spacing(3),
     color: theme.palette.text.primary,
     fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
+    "&:hover, &:focus": {
       backgroundColor: emphasize(backgroundColor, 0.06),
     },
-    '&:active': {
+    "&:active": {
       boxShadow: theme.shadows[1],
       backgroundColor: emphasize(backgroundColor, 0.12),
     },
@@ -24,7 +24,8 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
 
 function handleClick(event: React.MouseEvent<Element, MouseEvent>) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');}
+  console.info("You clicked a breadcrumb.");
+}
 
 export default function Reservetion() {
   interface Ibook {
@@ -49,7 +50,6 @@ export default function Reservetion() {
     label: string;
   }
 
-  
   const navigate = useNavigate();
   const [books, setBooks] = useState<Ibook[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
@@ -74,8 +74,7 @@ export default function Reservetion() {
 
   return (
     <div>
-
-      <label htmlFor="books">Choose a book:</label>
+      <label htmlFor="books">انتخاب کتاب:</label>
       <select
         name="books"
         id="books"
@@ -88,7 +87,7 @@ export default function Reservetion() {
           if (filterDate.length === 0) {
             setReserve({ ...reserve, bookName: f.target.value });
           } else {
-            window.alert("Not available!");
+            window.alert("کتاب مورد نظر در دسترس نیست!");
           }
         }}
       >
@@ -102,7 +101,7 @@ export default function Reservetion() {
       </select>
       <br />
       <br />
-      <label htmlFor="Users">Choose a User:</label>
+      <label htmlFor="Users">انتخاب کاربر:</label>
       <select
         name="Users"
         id="Users"
@@ -115,7 +114,7 @@ export default function Reservetion() {
           if (filterCodeMeli.length === 0) {
             setReserve({ ...reserve, codeMeli: f.target.value });
           } else {
-            window.alert("Not available!");
+            window.alert("کاربر مورد نظر مجاز نمیباشد!");
           }
         }}
       >
@@ -126,7 +125,7 @@ export default function Reservetion() {
       <br />
       <br />
 
-      <label>ReturnDate:</label>
+      <label>تاریخ تحویل:</label>
       <input
         type={"date"}
         value={reserve.lastDate}
@@ -150,7 +149,7 @@ export default function Reservetion() {
               },
               body: JSON.stringify({
                 ...reserve,
-                firstDate: new Date().toISOString().substr(0, 10),
+                firstDate: new Date().toLocaleDateString("fa").substr(0, 10),
               }),
             })
               .then((w) => w.json())
@@ -163,7 +162,7 @@ export default function Reservetion() {
           });
         }}
       >
-        Save
+        ذخیره
       </button>
 
       <br />
@@ -173,10 +172,9 @@ export default function Reservetion() {
           onClick={() => {
             return navigate("/");
           }}
-          label="Home"
+          label="برگشت به خانه"
           icon={<HomeIcon fontSize="small" />}
         />
-        
       </Breadcrumbs>
       <Outlet />
     </div>
