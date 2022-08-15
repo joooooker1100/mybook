@@ -7,6 +7,7 @@ export default function App() {
     key: "47d4013b04a5446da43b62888daf57c3",
   };
   useEffect(() => {
+    
     const client = twelvedata(config);
     client
       .timeSeries({ symbol: "ETH/BTC", interval: "1min", outputsize: 1 })
@@ -20,9 +21,20 @@ export default function App() {
 
   return (
     <div>
-      {ethData.map((w: any) => {
-        return w.close;
-      })}
+      {Close()}
     </div>
   );
+  function Close() {
+    
+    useEffect(()=>{
+      setInterval(App,10000)
+    })
+    return(
+      <div>
+        {ethData.map((w:any)=>{
+          return(w.close)
+        })}
+      </div>
+    )
+  }
 }

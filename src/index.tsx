@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/"element={<Close/>}/>
+      <Route path="/"element={<App/>}/>
     </Routes>
   </BrowserRouter>
 );
