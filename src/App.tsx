@@ -24,8 +24,6 @@ export default function App() {
   return (
     <div>
       {ethData.map((w: any) => {
-        console.log(w.close);
-
         return (+w.close).toLocaleString("en-US", { maximumFractionDigits: 5 });
       })}
     </div>
