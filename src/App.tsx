@@ -1,20 +1,81 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  responsive: true,
+  interaction: {
+    mode: "index" as const,
+    intersect: false,
+  },
+  stacked: false,
+  plugins: {
+    title: {
+      display: true,
+      text: "Chart.js Line Chart - Multi Axis",
+    },
+  },
+  scales: {
+    y: {
+      type: "linear" as const,
+      display: true,
+      position: "left" as const,
+    },
+    y1: {
+      type: "linear" as const,
+      display: true,
+      position: "right" as const,
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+  },
+};
+
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const faker = [100, 2000, 300, 400, 5050, 600, 7004, 800, 9050];
+const faker2 = [1000, 2000, 3000, 5000, 4000, 2000, 7000, 1000, 6000];
+console.log(labels.map(() => faker2));
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: "Dataset 1",
+      data: labels.map(() => faker),
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      yAxisID: "y",
+    },
+    {
+      label: "Dataset 2",
+      data: labels.map(() => faker2),
+      borderColor: "rgb(53, 162, 235)",
+      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      yAxisID: "y1",
+    },
+  ],
+};
 
 export default function App() {
-  const [ethData, setEthData] = useState([]);
-
-  useEffect(() => {
-    let a = setInterval(() => {
-      fetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
-        .then((w) => w.json())
-        .then((w) => {
-          setEthData(w.price);
-        });
-    }, 1000);
-    return () => {
-      clearInterval(a);
-    };
-  }, []);
-
-  return <div>{ethData}</div>;
+  return <Line options={options} data={data} />;
 }
