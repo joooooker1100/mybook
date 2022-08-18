@@ -1,4 +1,6 @@
 import React from "react";
+import faker from "faker";
+
 import {
   Chart as ChartJS,
   CategoryScale,
